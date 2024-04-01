@@ -1,5 +1,5 @@
 import { useSession, signIn, signOut } from "next-auth/react";
-
+require('dotenv').config();
 
 export default function Home() {
 
