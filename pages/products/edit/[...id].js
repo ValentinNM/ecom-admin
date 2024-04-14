@@ -1,10 +1,11 @@
 import Layout from "@/components/Layout";
+import ProductForm from "@/components/ProductForm";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function EditProductPage() {
-  const [editableProduct, setEditableProduct] = useState({});
+  const [editableProduct, setEditableProduct] = useState(null);
   const router = useRouter();
   console.log({ router });
   const { id } = router?.query;
@@ -27,9 +28,10 @@ export default function EditProductPage() {
 
   return (
     <Layout>
-      <h1>Edit Product</h1>
-      <p>Product ID: {id}</p>
-      <p>Product Title: {editableProduct.title || ''}</p>
+      <h1>Edit product</h1>
+      {editableProduct && (
+        <ProductForm product={editableProduct} />
+      )}
     </Layout>
   )
 }
