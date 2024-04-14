@@ -23,6 +23,7 @@ export default function Nav() {
           return (
             <Link
               id={index}
+              key={index}
               href={item.url}
               className={pathname === item.url ? activeLink : inactiveLink}
             >

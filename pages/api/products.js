@@ -1,11 +1,28 @@
-export default function handler(req = {}, res = {}) {
+import { Product } from "@/models/Product";
+import { mongooseConnect } from "@/lib/mongoose";
+
+export default async function handler(req = {}, res = {}) {
   const { method = '' } = req
+  await mongooseConnect()
 
   if (method === 'POST') {
-
-    console.info({ req, res });
-
+    // const { title, description, price, quantity } = req.body
+    try {
+      const newProduct = await Product.create({ ...req.body })
+      console.info({ newProduct });
+      res.status(200).json(newProduct)
+    } catch (error) {
+      console.error({ newProductError: error });
+    }
   }
 
-  // return res.status(200).json('req.method')
+  if (method === 'GET') {
+    try {
+      const products = await Product.find()
+      res.status(200).json(products)
+    } catch (error) {
+      console.error({ getProductsError: error });
+      res.status(500).json(error)
+    }
+  }
 }
