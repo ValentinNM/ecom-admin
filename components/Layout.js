@@ -6,7 +6,7 @@ export default function Layout({children}) {
 
   const { data: session } = useSession();
 
-  console.info('session', session);
+  // console.info('session', session);
 
   if (!session) {
     return (

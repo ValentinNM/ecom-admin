@@ -6,10 +6,10 @@ export default function Home() {
     data: session = {}
   } = useSession();
 
-  console.log({session});
+  // console.log({session});
   
   if (!session) return
-  console.log({session});
+  // console.log({session});
   
   const { user: {
     name = "",
