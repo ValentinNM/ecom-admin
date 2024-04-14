@@ -6,7 +6,6 @@ export default async function handler(req = {}, res = {}) {
   await mongooseConnect()
 
   if (method === 'POST') {
-    // const { title, description, price, quantity } = req.body
     try {
       const newProduct = await Product.create({ ...req.body })
       console.info({ newProduct });
@@ -18,8 +17,13 @@ export default async function handler(req = {}, res = {}) {
 
   if (method === 'GET') {
     try {
-      const products = await Product.find()
-      res.status(200).json(products)
+      if (req?.query?.id) {
+        const product = await Product.findById(req.query.id)
+        res.status(200).json(product)
+      } else {
+        const products = await Product.find()
+        res.status(200).json(products)
+      }
     } catch (error) {
       console.error({ getProductsError: error });
       res.status(500).json(error)
