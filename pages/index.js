@@ -1,40 +1,35 @@
-import { useSession, signIn, signOut } from "next-auth/react";
-require('dotenv').config();
+import Layout from "@/components/layout";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
+  const {
+    data: session = {}
+  } = useSession();
 
-  const { data: session } = useSession();
-
-  console.info('session', session);
-
-  if (!session) {
-    return (
-      <div className="bg-blue-900 w-screen h-screen flex items-center">
-        <div className="text-center w-full">
-          <button
-          className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded-md"
-          onClick={() => signIn('google')}
-          >
-            Login with Google
-          </button>
-        </div>
-      </div>
-    );
-  }
+  console.log({session});
+  
+  if (!session) return
+  console.log({session});
+  
+  const { user: {
+    name = "",
+    email = "",
+    image = "",
+  } = {} } = session;
 
   return (
-    <>
-      <div className="bg-red-900 w-screen h-screen flex items-center">
-        <div className="text-center w-full">
-          <h1 className="text-white text-4xl">Welcome {session.user.email}</h1>
-          <button
-            onClick={() => signOut()}
-            className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded-md"
-          >
-            Sign Out
-          </button>
+    <Layout>
+      <div className="text-red-900 flex justify-between">
+        <h2>Welcome, <b>{name}</b></h2>
+        <div className="flex gap-1 bg-gray-400 text-black rounded-lg items-center">
+          <img
+            className="h-10 w-10 rounded-l-lg"
+            src={image}
+            alt="user-profile-picture">
+          </img>
+          <span className="px-2">{name}</span>
         </div>
       </div>
-    </>
-  );
+    </Layout>
+  )
 }
